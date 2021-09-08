@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
 import express, { response } from 'express';
-
+import planetsRoutes from './routes/planets.routes.js';
+import methodMiddleware from './middlewares/method.js';
+import errorMiddleware from './middlewares/error.js';
 const app = express();
+app.use(methodMiddleware);
+app.use(planetsRoutes);
+
 
 app.get('/premiere', (req, res) => {
     res.status(200); //gud
@@ -56,4 +61,7 @@ app.get('/date', (req, res) => {
     res.send(now)
 
 })
+
+app.use(errorMiddleware);
+
 export default app;
