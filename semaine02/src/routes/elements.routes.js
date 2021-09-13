@@ -33,12 +33,26 @@ class ElementsRoutes {
     }
 
     post(req, res, next) {
-
+        const newElement = req.body;
+        const element = ELEMENTS.find(e => e.symbol == newElement.symbol);
+        if(element){
+            return next(HttpError.Conflict(`L'element avec le symbol ${newElement.symbol} éxiste déjà`))
+        }
+        else{
+            ELEMENTS.push(newElement);
+            res.status(201).json(newElement);
+        }
         
     }
     
     delete(req, res, next) {
-     
+        const index = ELEMENTS.findIndex(e => e.symbol == req.params.symbol);
+        if(index === -1){
+            return next(HttpError.NotFound(`L'element avec le symbol ${red.params.symbol} n'éxiste pas.`));
+        }
+        ELEMENTS.splice(index, 1);
+        res.status(204).end();
+        
     }
 }
 
