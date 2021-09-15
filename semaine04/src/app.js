@@ -1,0 +1,20 @@
+import dayjs from 'dayjs';
+import express from 'express';
+import database from './libs/database.js';
+import planetsRoutes from './routes/planets.routes.js';
+import elementsRoutes from './routes/elements.routes.js';
+import methodMiddleware from './middlewares/method.js';
+import errorMiddleware from './middlewares/error.js';
+
+database();
+
+const app = express();
+app.use(express.json());
+app.use(methodMiddleware);
+app.use('/planets',planetsRoutes);
+app.use('/elements', elementsRoutes);
+
+
+app.use(errorMiddleware);
+
+export default app;
